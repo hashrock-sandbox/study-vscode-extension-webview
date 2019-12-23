@@ -63,7 +63,18 @@ export function activate(context: vscode.ExtensionContext) {
       panel.webview.onDidReceiveMessage(message => {
         switch (message.command) {
           case "alert":
-            vscode.window.showErrorMessage(message.text);
+            let textDocument = editor?.document;
+
+            let invalidRange = new vscode.Range(
+              0,
+              0,
+              textDocument!.lineCount /*intentionally missing the '-1' */,
+              0
+            );
+            let fullRange = textDocument!.validateRange(invalidRange);
+            editor?.edit(edit => edit.replace(fullRange, message.text));
+
+            // vscode.window.showErrorMessage(message.text);
             return;
         }
       }, null);

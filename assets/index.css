@@ -2,3 +2,7 @@ body {
   background: pink;
   color: black;
 }
+textarea {
+  height: 20em;
+  width: 20em;
+}

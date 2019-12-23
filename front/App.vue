@@ -16,7 +16,7 @@ export default {
     apply() {
       vscode.postMessage({
         command: "alert",
-        text: "🐛  on line "
+        text: this.input
       });
     }
   },

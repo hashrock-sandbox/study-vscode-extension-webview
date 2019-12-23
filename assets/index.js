@@ -8845,7 +8845,7 @@ var _default = {
     apply: function apply() {
       vscode.postMessage({
         command: "alert",
-        text: "🐛  on line "
+        text: this.input
       });
     }
   },
