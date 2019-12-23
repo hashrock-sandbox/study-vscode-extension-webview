@@ -1,6 +1,7 @@
 # 双方向編集がしたい
 
-https://github.com/henoc/svgeditor/blob/master/src/node/extension.ts
+- https://github.com/henoc/svgeditor/blob/master/src/node/extension.ts
+- https://qiita.com/hakua-doublemoon/items/cfb638fe1ab43ca42cb8
 
 tutorial から始めてるけど道のりが長そう
 

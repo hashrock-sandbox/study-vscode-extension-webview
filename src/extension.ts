@@ -8,9 +8,41 @@ function getDiskPath(context: vscode.ExtensionContext, fileName: string) {
   return onDiskPath.with({ scheme: "vscode-resource" });
 }
 
+let _panel: vscode.WebviewPanel;
+
 export function activate(context: vscode.ExtensionContext) {
   const css = getDiskPath(context, "index.css");
   const js = getDiskPath(context, "index.js");
+
+  let editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    return "";
+  }
+  let working_file_path = editor.document.fileName;
+  vscode.window.onDidChangeVisibleTextEditors(() => {
+    console.log("fire");
+  });
+
+  // vscode.window.onDidChangeActiveTextEditor(
+  //   editor => {
+  //     _panel.webview.postMessage({
+  //       command: "text",
+  //       text: editor?.document.getText()
+  //     });
+  //   },
+  //   null,
+  //   context.subscriptions
+  // );
+  vscode.workspace.onDidChangeTextDocument(
+    (e: vscode.TextDocumentChangeEvent) => {
+      _panel.webview.postMessage({
+        command: "text",
+        text: editor?.document.getText()
+      });
+    },
+    null,
+    context.subscriptions
+  );
 
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.helloWorld", () => {
@@ -25,6 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
           enableScripts: true
         }
       );
+      _panel = panel;
       panel.webview.html = getWebviewContent(css, js);
 
       panel.webview.onDidReceiveMessage(message => {
@@ -35,7 +68,11 @@ export function activate(context: vscode.ExtensionContext) {
         }
       }, null);
 
-      panel.webview.postMessage({ command: "text", text: "Hello, Message" });
+      const text = editor?.document.getText();
+      panel.webview.postMessage({
+        command: "text",
+        text: editor?.document.getText()
+      });
     })
   );
 
