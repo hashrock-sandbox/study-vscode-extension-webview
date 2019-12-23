@@ -10,7 +10,7 @@ function getDiskPath(context: vscode.ExtensionContext, fileName: string) {
 
 export function activate(context: vscode.ExtensionContext) {
   const css = getDiskPath(context, "index.css");
-  const vue = getDiskPath(context, "vue.min.js");
+  const js = getDiskPath(context, "index.js");
 
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.helloWorld", () => {
@@ -21,26 +21,26 @@ export function activate(context: vscode.ExtensionContext) {
         {
           localResourceRoots: [
             vscode.Uri.file(path.join(context.extensionPath, "assets"))
-          ]
+          ],
+          enableScripts: true
         }
       );
-      panel.webview.html = getWebviewContent(css, vue);
+      panel.webview.html = getWebviewContent(css, js);
     })
   );
 
-  function getWebviewContent(css: vscode.Uri, vue: vscode.Uri) {
+  function getWebviewContent(css: vscode.Uri, js: vscode.Uri) {
     return `<!DOCTYPE html>
 	<html lang="en">
 	<head>
-			<meta charset="UTF-8">
+      <meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<title>Cat Coding</title>
 			<link rel="stylesheet" href="${css}" />
-			<link rel="stylesheet" href="${vue}" />
 	</head>
 	<body>
-			<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width="300" />
-			<p>Hello, World</p>
+      <div id="app"></div>
+      <script src="${js}"></script>
 	</body>
 	</html>`;
   }
