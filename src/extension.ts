@@ -26,6 +26,16 @@ export function activate(context: vscode.ExtensionContext) {
         }
       );
       panel.webview.html = getWebviewContent(css, js);
+
+      panel.webview.onDidReceiveMessage(message => {
+        switch (message.command) {
+          case "alert":
+            vscode.window.showErrorMessage(message.text);
+            return;
+        }
+      }, null);
+
+      panel.webview.postMessage({ command: "text", text: "Hello, Message" });
     })
   );
 

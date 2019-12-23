@@ -8834,6 +8834,7 @@ exports.default = void 0;
 //
 //
 //
+var vscode = acquireVsCodeApi();
 var _default = {
   data: function data() {
     return {
@@ -8841,7 +8842,25 @@ var _default = {
     };
   },
   methods: {
-    apply: function apply() {}
+    apply: function apply() {
+      vscode.postMessage({
+        command: "alert",
+        text: "🐛  on line "
+      });
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    window.addEventListener("message", function (event) {
+      var message = event.data; // The JSON data our extension sent
+
+      switch (message.command) {
+        case "text":
+          _this.input = message.text;
+          break;
+      }
+    });
   }
 };
 exports.default = _default;

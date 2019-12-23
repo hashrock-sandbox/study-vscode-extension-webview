@@ -5,6 +5,7 @@
   </div>
 </template>
 <script>
+const vscode = acquireVsCodeApi();
 export default {
   data() {
     return {
@@ -12,7 +13,23 @@ export default {
     };
   },
   methods: {
-    apply() {}
+    apply() {
+      vscode.postMessage({
+        command: "alert",
+        text: "🐛  on line "
+      });
+    }
+  },
+  mounted() {
+    window.addEventListener("message", event => {
+      const message = event.data; // The JSON data our extension sent
+
+      switch (message.command) {
+        case "text":
+          this.input = message.text;
+          break;
+      }
+    });
   }
 };
 </script>
