@@ -1,9 +1,5 @@
 <template>
-  <div>
-    <!-- <textarea v-model="input"></textarea> -->
-    <gantt :input="input" @change="update"></gantt>
-    <!-- <button @click="apply">Apply</button> -->
-  </div>
+  <gantt :input="input" @change="update"></gantt>
 </template>
 <script>
 import Gantt from "./components/CodeBlockGantt.vue"
@@ -35,8 +31,7 @@ export default {
   },
   mounted() {
     window.addEventListener("message", event => {
-      const message = event.data; // The JSON data our extension sent
-
+      const message = event.data;
       switch (message.command) {
         case "text":
           this.input = message.text;

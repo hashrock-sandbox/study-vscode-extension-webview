@@ -17000,10 +17000,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
-//
-//
-//
 var vscode = acquireVsCodeApi();
 var _default = {
   components: {
@@ -17032,7 +17028,7 @@ var _default = {
     var _this = this;
 
     window.addEventListener("message", function (event) {
-      var message = event.data; // The JSON data our extension sent
+      var message = event.data;
 
       switch (message.command) {
         case "text":
@@ -17055,11 +17051,10 @@ exports.default = _default;
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [_c("gantt", { attrs: { input: _vm.input }, on: { change: _vm.update } })],
-    1
-  )
+  return _c("gantt", {
+    attrs: { input: _vm.input },
+    on: { change: _vm.update }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
