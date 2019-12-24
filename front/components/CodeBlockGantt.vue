@@ -11,11 +11,11 @@
         </g>
 
         <!-- 本日 -->
-        <rect :x="todayX" fill="#DDF" y=-23 width=20 height=20 rx=10 ry=10></rect>
+        <rect :x="todayX" fill="#343" y=-23 width=20 height=20 rx=10 ry=10></rect>
 
         <g>
         <!-- 日付 -->
-          <text v-for="(line, index) in lines" :x="line.x + 12" y="-8" text-anchor="middle" font-size="0.8rem" :fill="line.color" :key="index">{{line.label}}</text>
+          <text v-for="(line, index) in lines" :x="line.x + 10" y="-8" text-anchor="middle" font-size="0.8rem" :fill="line.color" :key="index">{{line.label}}</text>
         </g>
         <g>
           <!-- 日付区切り線 -->

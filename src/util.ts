@@ -10,14 +10,13 @@ export function getWebviewContent(css: vscode.Uri, js: vscode.Uri) {
     return `<!DOCTYPE html>
 	<html lang="en">
 	<head>
-      <meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Cat Coding</title>
-			<link rel="stylesheet" href="${css}" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="${css}" />
 	</head>
 	<body>
-      <div id="app"></div>
-      <script src="${js}"></script>
+        <div id="app"></div>
+        <script src="${js}"></script>
 	</body>
 	</html>`;
 }

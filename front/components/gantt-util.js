@@ -18,8 +18,16 @@ export function getRelativeDate(day) {
   return d;
 }
 export function getNewDate(str, offset) {
-  let d = new Date(str);
-  resetHMS(d);
+  const m = str.match(/(\d+)-(\d+)-(\d+)/);
+  if (!m) {
+    let d = new Date();
+    resetHMS(d);
+    return d;
+  }
+  const ny = parseInt(m[1], 10);
+  const nm = parseInt(m[2], 10) - 1;
+  const nd = parseInt(m[3], 10);
+  let d = new Date(ny, nm, nd);
   if (offset !== undefined) {
     d.setDate(d.getDate() + offset);
   }

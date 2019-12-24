@@ -8582,8 +8582,19 @@ function getRelativeDate(day) {
 }
 
 function getNewDate(str, offset) {
-  var d = new Date(str);
-  resetHMS(d);
+  var m = str.match(/(\d+)-(\d+)-(\d+)/);
+
+  if (!m) {
+    var _d = new Date();
+
+    resetHMS(_d);
+    return _d;
+  }
+
+  var ny = parseInt(m[1], 10);
+  var nm = parseInt(m[2], 10) - 1;
+  var nd = parseInt(m[3], 10);
+  var d = new Date(ny, nm, nd);
 
   if (offset !== undefined) {
     d.setDate(d.getDate() + offset);
@@ -16728,7 +16739,7 @@ function generateLineByRange(start, end, displayRange, svgWidth) {
             _c("rect", {
               attrs: {
                 x: _vm.todayX,
-                fill: "#DDF",
+                fill: "#343",
                 y: "-23",
                 width: "20",
                 height: "20",
@@ -16745,7 +16756,7 @@ function generateLineByRange(start, end, displayRange, svgWidth) {
                   {
                     key: index,
                     attrs: {
-                      x: line.x + 12,
+                      x: line.x + 10,
                       y: "-8",
                       "text-anchor": "middle",
                       "font-size": "0.8rem",
@@ -17131,7 +17142,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60011" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62396" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
