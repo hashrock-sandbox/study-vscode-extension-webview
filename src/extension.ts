@@ -35,6 +35,9 @@ function setListeners(context: vscode.ExtensionContext, css: vscode.Uri, js: vsc
     if (editor === undefined) {
       return;
     }
+    if(editor.document.languageId === "Log"){
+      return;
+    }
     if (editor) {
       _editor = editor;
     }

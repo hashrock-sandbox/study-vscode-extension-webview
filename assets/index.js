@@ -16497,6 +16497,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 //
 //
 //
+//
+//
 var _default = {
   props: {
     input: String
@@ -16504,6 +16506,7 @@ var _default = {
   data: function data() {
     return {
       tasks: [],
+      taskName: "",
       lines: [],
       displayRange: {
         start: -2,
@@ -16585,16 +16588,13 @@ var _default = {
     setTasks: function setTasks(input) {
       this.tasks = gantt.compile(input);
     },
-    addTask: function addTask() {
-      var task = window.prompt("タスク名入力");
-
-      if (task) {
-        this.tasks.push({
-          name: task,
-          start: util.getRelativeDate(0).getTime(),
-          end: util.getRelativeDate(1).getTime()
-        });
-      }
+    addTask: function addTask(task) {
+      this.tasks.push({
+        name: "New Task",
+        start: util.getRelativeDate(0).getTime(),
+        end: util.getRelativeDate(1).getTime()
+      });
+      this.$emit("change", gantt.serialize(this.tasks));
     },
     moveRange: function moveRange(offset) {
       this.displayRange.start += offset;
@@ -16681,273 +16681,277 @@ function generateLineByRange(start, end, displayRange, svgWidth) {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "svg",
-    {
-      staticClass: "gantt",
-      attrs: { width: _vm.svgWidth, height: _vm.tasks.length * 32 + 48 },
-      on: { pointermove: _vm.onDrag, pointerup: _vm.stopDrag }
-    },
-    [
-      _c(
-        "g",
-        { attrs: { transform: "translate(0, 48)" } },
-        [
-          _c("rect", {
-            staticClass: "background",
-            attrs: {
-              x: "0",
-              y: "0",
-              width: _vm.svgWidth,
-              height: _vm.tasks.length * 32
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "g",
-            _vm._l(_vm.lines, function(line, index) {
-              return _c(
-                "text",
-                {
-                  key: index,
-                  attrs: {
-                    x: line.x,
-                    y: "-28",
-                    "text-anchor": "start",
-                    "font-weight": "900",
-                    "font-size": "0.8rem",
-                    fill: "#9C9"
-                  }
-                },
-                [_vm._v(_vm._s(line.labelMonth))]
-              )
+  return _c("div", [
+    _c(
+      "svg",
+      {
+        staticClass: "gantt",
+        attrs: { width: _vm.svgWidth, height: _vm.tasks.length * 32 + 48 },
+        on: { pointermove: _vm.onDrag, pointerup: _vm.stopDrag }
+      },
+      [
+        _c(
+          "g",
+          { attrs: { transform: "translate(0, 48)" } },
+          [
+            _c("rect", {
+              staticClass: "background",
+              attrs: {
+                x: "0",
+                y: "0",
+                width: _vm.svgWidth,
+                height: _vm.tasks.length * 32
+              }
             }),
-            0
-          ),
-          _vm._v(" "),
-          _c("rect", {
-            attrs: {
-              x: _vm.todayX,
-              fill: "#DDF",
-              y: "-23",
-              width: "20",
-              height: "20",
-              rx: "10",
-              ry: "10"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "g",
-            _vm._l(_vm.lines, function(line, index) {
-              return _c(
-                "text",
-                {
-                  key: index,
-                  attrs: {
-                    x: line.x + 12,
-                    y: "-8",
-                    "text-anchor": "middle",
-                    "font-size": "0.8rem",
-                    fill: line.color
-                  }
-                },
-                [_vm._v(_vm._s(line.label))]
-              )
-            }),
-            0
-          ),
-          _vm._v(" "),
-          _c(
-            "g",
-            _vm._l(_vm.lines, function(line, index) {
-              return _c("line", {
-                key: index,
-                staticClass: "gridline",
-                attrs: {
-                  x1: line.x,
-                  y1: "0",
-                  x2: line.x,
-                  y2: _vm.tasks.length * 32
-                }
-              })
-            }),
-            0
-          ),
-          _vm._v(" "),
-          _vm._l(_vm.tasks, function(task, index) {
-            return _c(
+            _vm._v(" "),
+            _c(
               "g",
-              {
-                key: index,
-                class: { dragging: index === _vm.selectedIndex },
-                attrs: {
-                  transform:
-                    "translate(" +
-                    _vm.scale(task.start) +
-                    ", " +
-                    index * 32 +
-                    ")"
-                }
-              },
-              [
-                _c("rect", {
-                  staticClass: "task",
-                  attrs: {
-                    x: "0",
-                    y: "4",
-                    width: _vm.scaleLength(task.end - task.start),
-                    height: "24"
-                  },
-                  on: {
-                    pointerdown: function($event) {
-                      return _vm.startDrag($event, index)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c(
+              _vm._l(_vm.lines, function(line, index) {
+                return _c(
                   "text",
                   {
-                    staticClass: "taskname",
+                    key: index,
                     attrs: {
-                      x: "-4",
-                      y: "20",
-                      "font-size": "12",
-                      "text-anchor": "end",
-                      fill: "black",
-                      "line-height": "32"
+                      x: line.x,
+                      y: "-28",
+                      "text-anchor": "start",
+                      "font-weight": "900",
+                      "font-size": "0.8rem",
+                      fill: "#9C9"
                     }
                   },
-                  [_vm._v(_vm._s(task.name))]
+                  [_vm._v(_vm._s(line.labelMonth))]
                 )
-              ]
-            )
-          }),
-          _vm._v(" "),
-          _vm.dragoverIndex > -1 && _vm.dragoverIndex !== _vm.selectedIndex
-            ? _c("rect", {
-                staticClass: "dragover",
-                attrs: {
-                  x: "0",
-                  y: 32 * _vm.dragoverIndex,
-                  width: _vm.svgWidth,
-                  height: "32"
-                }
-              })
-            : _vm._e()
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _c(
-        "g",
-        {
-          staticStyle: { cursor: "pointer" },
-          attrs: {
-            transform: "translate(" + (_vm.svgWidth - 24 * 3 - 0.5) + ", 0.5)"
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c("rect", {
+              attrs: {
+                x: _vm.todayX,
+                fill: "#DDF",
+                y: "-23",
+                width: "20",
+                height: "20",
+                rx: "10",
+                ry: "10"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "g",
+              _vm._l(_vm.lines, function(line, index) {
+                return _c(
+                  "text",
+                  {
+                    key: index,
+                    attrs: {
+                      x: line.x + 12,
+                      y: "-8",
+                      "text-anchor": "middle",
+                      "font-size": "0.8rem",
+                      fill: line.color
+                    }
+                  },
+                  [_vm._v(_vm._s(line.label))]
+                )
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c(
+              "g",
+              _vm._l(_vm.lines, function(line, index) {
+                return _c("line", {
+                  key: index,
+                  staticClass: "gridline",
+                  attrs: {
+                    x1: line.x,
+                    y1: "0",
+                    x2: line.x,
+                    y2: _vm.tasks.length * 32
+                  }
+                })
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _vm._l(_vm.tasks, function(task, index) {
+              return _c(
+                "g",
+                {
+                  key: index,
+                  class: { dragging: index === _vm.selectedIndex },
+                  attrs: {
+                    transform:
+                      "translate(" +
+                      _vm.scale(task.start) +
+                      ", " +
+                      index * 32 +
+                      ")"
+                  }
+                },
+                [
+                  _c("rect", {
+                    staticClass: "task",
+                    attrs: {
+                      x: "0",
+                      y: "4",
+                      width: _vm.scaleLength(task.end - task.start),
+                      height: "24"
+                    },
+                    on: {
+                      pointerdown: function($event) {
+                        return _vm.startDrag($event, index)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "text",
+                    {
+                      staticClass: "taskname",
+                      attrs: {
+                        x: "-4",
+                        y: "20",
+                        "font-size": "12",
+                        "text-anchor": "end",
+                        fill: "black",
+                        "line-height": "32"
+                      }
+                    },
+                    [_vm._v(_vm._s(task.name))]
+                  )
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _vm.dragoverIndex > -1 && _vm.dragoverIndex !== _vm.selectedIndex
+              ? _c("rect", {
+                  staticClass: "dragover",
+                  attrs: {
+                    x: "0",
+                    y: 32 * _vm.dragoverIndex,
+                    width: _vm.svgWidth,
+                    height: "32"
+                  }
+                })
+              : _vm._e()
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _c(
+          "g",
+          {
+            staticStyle: { cursor: "pointer" },
+            attrs: {
+              transform: "translate(" + (_vm.svgWidth - 24 * 3 - 0.5) + ", 0.5)"
+            },
+            on: {
+              click: function($event) {
+                return _vm.moveRange(-7)
+              }
+            }
           },
-          on: {
-            click: function($event) {
-              return _vm.moveRange(-7)
-            }
-          }
-        },
-        [
-          _c("rect", {
+          [
+            _c("rect", {
+              attrs: {
+                fill: "white",
+                x: "0",
+                y: "0",
+                width: "20",
+                height: "20",
+                rx: "4",
+                ry: "4"
+              }
+            }),
+            _vm._v(" "),
+            _c("polyline", {
+              attrs: { points: "15 5 5 10 15 15", stroke: "#999", fill: "none" }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "g",
+          {
+            staticStyle: { cursor: "pointer" },
             attrs: {
-              fill: "white",
-              x: "0",
-              y: "0",
-              width: "20",
-              height: "20",
-              rx: "4",
-              ry: "4"
+              transform: "translate(" + (_vm.svgWidth - 24 * 2 - 0.5) + ", 0.5)"
+            },
+            on: {
+              click: function($event) {
+                return _vm.moveRange(7)
+              }
             }
-          }),
-          _vm._v(" "),
-          _c("polyline", {
-            attrs: { points: "15 5 5 10 15 15", stroke: "#999", fill: "none" }
-          })
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "g",
-        {
-          staticStyle: { cursor: "pointer" },
-          attrs: {
-            transform: "translate(" + (_vm.svgWidth - 24 * 2 - 0.5) + ", 0.5)"
           },
-          on: {
-            click: function($event) {
-              return _vm.moveRange(7)
-            }
-          }
-        },
-        [
-          _c("rect", {
+          [
+            _c("rect", {
+              attrs: {
+                fill: "white",
+                x: "0",
+                y: "0",
+                width: "20",
+                height: "20",
+                rx: "4",
+                ry: "4"
+              }
+            }),
+            _vm._v(" "),
+            _c("polyline", {
+              attrs: { points: "5 5 15 10 5 15", stroke: "#999", fill: "none" }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "g",
+          {
+            staticStyle: { cursor: "pointer" },
             attrs: {
-              fill: "white",
-              x: "0",
-              y: "0",
-              width: "20",
-              height: "20",
-              rx: "4",
-              ry: "4"
-            }
-          }),
-          _vm._v(" "),
-          _c("polyline", {
-            attrs: { points: "5 5 15 10 5 15", stroke: "#999", fill: "none" }
-          })
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "g",
-        {
-          staticStyle: { cursor: "pointer" },
-          attrs: { transform: "translate(" + (_vm.svgWidth - 24.5) + ", 0.5)" },
-          on: { click: _vm.addTask }
-        },
-        [
-          _c("rect", {
-            attrs: {
-              fill: "white",
-              stroke: "#999",
-              x: "0",
-              y: "0",
-              width: "20",
-              height: "20",
-              rx: "4",
-              ry: "4"
-            }
-          }),
-          _vm._v(" "),
-          _c("line", {
-            attrs: {
-              x1: "10",
-              x2: "10",
-              y1: "5",
-              y2: "15",
-              stroke: "ForestGreen"
-            }
-          }),
-          _vm._v(" "),
-          _c("line", {
-            attrs: {
-              x1: "5",
-              x2: "15",
-              y1: "10",
-              y2: "10",
-              stroke: "ForestGreen"
-            }
-          })
-        ]
-      )
-    ]
-  )
+              transform: "translate(" + (_vm.svgWidth - 24.5) + ", 0.5)"
+            },
+            on: { click: _vm.addTask }
+          },
+          [
+            _c("rect", {
+              attrs: {
+                fill: "white",
+                stroke: "#999",
+                x: "0",
+                y: "0",
+                width: "20",
+                height: "20",
+                rx: "4",
+                ry: "4"
+              }
+            }),
+            _vm._v(" "),
+            _c("line", {
+              attrs: {
+                x1: "10",
+                x2: "10",
+                y1: "5",
+                y2: "15",
+                stroke: "ForestGreen"
+              }
+            }),
+            _vm._v(" "),
+            _c("line", {
+              attrs: {
+                x1: "5",
+                x2: "15",
+                y1: "10",
+                y2: "10",
+                stroke: "ForestGreen"
+              }
+            })
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
