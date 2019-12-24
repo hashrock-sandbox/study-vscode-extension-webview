@@ -34,6 +34,7 @@
 		"@types/node": "^12.11.7",
 		"@types/vscode": "^1.41.0",
 		"@vue/component-compiler-utils": "^3.1.0",
+		"cssnano": "^4.1.10",
 		"glob": "^7.1.5",
 		"mocha": "^6.2.2",
 		"tslint": "^5.20.0",
@@ -42,6 +43,7 @@
 		"vue-template-compiler": "^2.6.11"
 	},
 	"dependencies": {
+		"d3-scale": "^3.2.1",
 		"vue": "^2.6.11",
 		"vue-hot-reload-api": "^2.3.4"
 	}

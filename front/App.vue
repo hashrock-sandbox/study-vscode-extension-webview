@@ -1,18 +1,31 @@
 <template>
   <div>
-    <textarea v-model="input"></textarea>
-    <button @click="apply">Apply</button>
+    <!-- <textarea v-model="input"></textarea> -->
+    <gantt :input="input" @change="update"></gantt>
+    <!-- <button @click="apply">Apply</button> -->
   </div>
 </template>
 <script>
+import Gantt from "./components/CodeBlockGantt.vue"
+
 const vscode = acquireVsCodeApi();
 export default {
+  components: {
+    Gantt
+  },  
   data() {
     return {
       input: ""
     };
   },
   methods: {
+    update(text){
+      vscode.postMessage({
+        command: "alert",
+        text: text
+      });
+
+    },
     apply() {
       vscode.postMessage({
         command: "alert",
