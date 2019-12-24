@@ -1,6 +1,6 @@
 {
-  "name": "helloworld",
-  "displayName": "HelloWorld",
+  "name": "ganttdown",
+  "displayName": "GanttDown",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -45,6 +45,7 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "build": "parcel build front/index.js -d assets",
+    "dev": "parcel front/index.js -d assets",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile",

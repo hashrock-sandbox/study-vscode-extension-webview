@@ -22,6 +22,8 @@ function getAssets(context: vscode.ExtensionContext) {
   const js = getDiskPath(context, "index.js");
   return { css, js };
 }
+
+// WebViewにテキストを送信
 function sendText(panel: vscode.WebviewPanel, str: string, ) {
   panel.webview.postMessage({
     command: "text",
@@ -29,25 +31,33 @@ function sendText(panel: vscode.WebviewPanel, str: string, ) {
   });
 }
 
-
 function setListeners(context: vscode.ExtensionContext, css: vscode.Uri, js: vscode.Uri) {
+  // Activeなテキストエディタが切り替わる（GanttDownはプレビュー内容を変更する）
   vscode.window.onDidChangeActiveTextEditor(editor => {
     if (editor === undefined) {
       return;
     }
-    if(editor.document.languageId === "Log"){
+
+    // package.jsonのlanguageに定義した拡張子のみに反応させる
+    // (切り替えた際に.ganttのみプレビューしたいため)
+    if (editor.document.languageId !== "gantt") {
       return;
     }
     if (editor) {
       _editor = editor;
     }
     _panel.title = editor ? _editor.document.fileName : "No File";
+
+    // ファイル内容をWebViewに送る
     sendText(_panel, _editor.document.getText());
   }, null, context.subscriptions);
 
+  // ActiveなDocumentが編集される
   vscode.workspace.onDidChangeTextDocument((e: vscode.TextDocumentChangeEvent) => {
     sendText(_panel, _editor.document.getText());
   }, null, context.subscriptions);
+
+  // showGanttコマンドを登録
   context.subscriptions.push(vscode.commands.registerCommand("ganttdown.showGantt", () => {
     const panel = vscode.window.createWebviewPanel("ganttDown", // Identifies
       "GanttDown", // Title
@@ -58,6 +68,8 @@ function setListeners(context: vscode.ExtensionContext, css: vscode.Uri, js: vsc
       enableScripts: true
     });
     _panel = panel;
+
+    // WebViewへの表示内容（自力Renderの必要がある）
     panel.webview.html = getWebviewContent(css, js);
     _panel.onDidDispose((e) => {
       //TODO 対象editorを破棄する必要あり
