@@ -21,14 +21,14 @@ export default {
   methods: {
     update(text){
       vscode.postMessage({
-        command: "alert",
+        command: "text",
         text: text
       });
 
     },
     apply() {
       vscode.postMessage({
-        command: "alert",
+        command: "text",
         text: this.input
       });
     }

@@ -8609,10 +8609,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function compile(input) {
   var data = input.split(/[\r|\n|\r\n]/).filter(function (item) {
     return item.length > 0;
-  }); //最初の一行を除去
-
+  });
   return data.map(function (item) {
-    var ary = item.split(" ");
+    var ary = item.split("\t");
     return {
       name: ary[0],
       start: util.getNewDate(ary[1], 0).getTime(),
@@ -8641,7 +8640,7 @@ function ymdFromEpoc(epoc, offset) {
 
 function serialize(tasks) {
   return tasks.map(function (item) {
-    return "".concat(item.name, " ").concat(ymdFromEpoc(item.start), " ").concat(ymdFromEpoc(item.end, -1));
+    return "".concat(item.name, "\t").concat(ymdFromEpoc(item.start), "\t").concat(ymdFromEpoc(item.end, -1));
   }).join("\n") + "\n";
 }
 },{"./gantt-util":"components/gantt-util.js"}],"../node_modules/d3-array/src/ascending.js":[function(require,module,exports) {
@@ -17018,13 +17017,13 @@ var _default = {
   methods: {
     update: function update(text) {
       vscode.postMessage({
-        command: "alert",
+        command: "text",
         text: text
       });
     },
     apply: function apply() {
       vscode.postMessage({
-        command: "alert",
+        command: "text",
         text: this.input
       });
     }

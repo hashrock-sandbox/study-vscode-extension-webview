@@ -48,9 +48,9 @@ function setListeners(context: vscode.ExtensionContext, css: vscode.Uri, js: vsc
   vscode.workspace.onDidChangeTextDocument((e: vscode.TextDocumentChangeEvent) => {
     sendText(_panel, _editor.document.getText());
   }, null, context.subscriptions);
-  context.subscriptions.push(vscode.commands.registerCommand("extension.helloWorld", () => {
-    const panel = vscode.window.createWebviewPanel("catCoding", // Identifies
-      "Cat Coding", // Title
+  context.subscriptions.push(vscode.commands.registerCommand("ganttdown.showGantt", () => {
+    const panel = vscode.window.createWebviewPanel("ganttDown", // Identifies
+      "GanttDown", // Title
       vscode.ViewColumn.Beside, {
       localResourceRoots: [
         vscode.Uri.file(path.join(context.extensionPath, "assets"))
@@ -60,12 +60,11 @@ function setListeners(context: vscode.ExtensionContext, css: vscode.Uri, js: vsc
     _panel = panel;
     panel.webview.html = getWebviewContent(css, js);
     _panel.onDidDispose((e) => {
-      console.log("dispose", e);
       //TODO 対象editorを破棄する必要あり
     }, undefined, context.subscriptions);
     panel.webview.onDidReceiveMessage(message => {
       switch (message.command) {
-        case "alert":
+        case "text":
           let textDocument = _editor.document;
           let invalidRange = new vscode.Range(0, 0, textDocument!.lineCount /*intentionally missing the '-1' */, 0);
           let fullRange = textDocument!.validateRange(invalidRange);
