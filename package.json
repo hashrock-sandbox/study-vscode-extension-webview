@@ -67,7 +67,7 @@
     "vue-template-compiler": "^2.6.11"
   },
   "dependencies": {
-    "d3-scale": "^3.2.1",
+    "d3-scale": "^4.0.2",
     "vue": "^2.6.11",
     "vue-hot-reload-api": "^2.3.4"
   }
